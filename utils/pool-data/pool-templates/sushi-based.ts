@@ -86,6 +86,9 @@ export async function getSushiPoolData(
     weeklyRoi = weeklyRoi * 2
   }
 
+  const myTotal = myStakedAmount * stakingTokenPrice;
+  const myWeekly = myTotal * weeklyRoi / 100;
+
   return {
     provider: poolData.provider,
     name: `${poolData.name} ${poolToken1.ticker}/ETH`,
@@ -118,14 +121,17 @@ export async function getSushiPoolData(
       {
         label: 'Hourly',
         value: `${toFixed(weeklyRoi / 7 / 24, 4)}%`,
+        mine: `${toFixed(myWeekly / 7 / 24, 4)}`,
       },
       {
         label: 'Daily',
         value: `${toFixed(weeklyRoi / 7, 4)}%`,
+        mine: `${toFixed(myWeekly / 7, 4)}`,
       },
       {
         label: 'Weekly',
         value: `${toFixed(weeklyRoi, 4)}%`,
+        mine: `${toFixed(myWeekly, 4)}`,
       },
     ],
   }

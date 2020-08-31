@@ -427,6 +427,13 @@ const DetailItem = ({ title, data }) =>
             </Text>
           ))}
         </Box>
+        <Box>
+          {data.map(({ mine }, index) => (
+            <Text pb=".1rem" key={index}>
+              {mine}
+            </Text>
+          ))}
+        </Box>
       </Flex>
     </Box>
   ) : (
