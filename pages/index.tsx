@@ -21,10 +21,10 @@ export default ({
         <PoolSection />
       </Box>
       <Box flexGrow={1}>
-        <Text color="gray.600" fontWeight="bold" pt="1rem" pl="20px">
+        {/* <Text color="gray.600" fontWeight="bold" pt="1rem" pl="20px">
           Information
         </Text>
-        <ResourceCard pt={0} title="" sectionContent={informationSection} />
+        <ResourceCard pt={0} title="" sectionContent={informationSection} /> */}
         <Text color="gray.600" fontWeight="bold" pt="1rem" pl="20px">
           Tools
         </Text>

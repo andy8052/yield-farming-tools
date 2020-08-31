@@ -26,7 +26,7 @@ import { Card } from '../components/Card'
 import { useEthContext } from '../contexts/ProviderContext'
 import { RiskLevel } from '../types'
 import { pools } from '../utils/pool-data'
-import { toNumber } from '../utils/utils'
+import { toNumber, toFixed } from '../utils/utils'
 
 enum SortOrder {
   Lowest,
@@ -56,6 +56,7 @@ export const PoolSection: React.FC = () => {
   const [sortOrder, setSortOrder] = useState(SortOrder.Highest)
   const [filters, setFilters] = useState([])
   const [showAll, setShowAll] = useState(false)
+  const [totalDailyROI, setTotalDailyROI] = useState(0);
 
   const toggleVisibleItems = () => setShowAll(!showAll)
 
@@ -103,6 +104,12 @@ export const PoolSection: React.FC = () => {
       pools.sort((a, b) => a.provider.localeCompare(b.provider))
     }
 
+    let dailyROI = 0;
+    pools.forEach(function(pool){
+      dailyROI += parseFloat(pool.ROIs[1].mine);
+    })
+    setTotalDailyROI(toFixed(dailyROI, 4));
+
     setVisiblePools([...pools])
   }
 
@@ -141,6 +148,9 @@ export const PoolSection: React.FC = () => {
   return (
     <Box pt={4}>
       <Box>
+        <Text ml="8px" w="100%" color="gray.600" fontWeight="bold">
+          You are curerntly making ${totalDailyROI}/day
+        </Text>
         <Flex justifyContent="space-between" mx="1rem">
           <Text
             w="25%"
@@ -430,7 +440,41 @@ const DetailItem = ({ title, data }) =>
         <Box>
           {data.map(({ mine }, index) => (
             <Text pb=".1rem" key={index}>
-              {mine}
+              ${mine}
+            </Text>
+          ))}
+        </Box>
+      </Flex>
+    </Box>
+  ) : (
+    <Box />
+  )
+
+  const ROIItem = ({ title, data }) =>
+  data ? (
+    <Box>
+      <Heading as="h4" size="sm" color="gray.600" pb={2}>
+        {title}
+      </Heading>
+      <Flex>
+        <Box pr={5}>
+          {data.map(({ label }) => (
+            <Text fontWeight="bold" key={label} pb=".1rem">
+              {label}
+            </Text>
+          ))}
+        </Box>
+        <Box>
+          {data.map(({ value }, index) => (
+            <Text pb=".1rem" key={index}>
+              {value}
+            </Text>
+          ))}
+        </Box>
+        <Box>
+          {data.map(({ mine }, index) => (
+            <Text pb=".1rem" key={index}>
+              ${mine}
             </Text>
           ))}
         </Box>
